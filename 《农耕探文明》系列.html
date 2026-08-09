@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《农耕探文明》全剧集列表 · 央视网</title>
+<style>
+  :root{
+    --green:#2e7d32; --green-dark:#1b5e20; --green-light:#e8f5e9;
+    --gold:#f9a825; --bg:#f4f6f4; --card:#ffffff; --text:#263238; --muted:#607d8b;
+    --border:#e0e4e0; --shadow:0 4px 16px rgba(46,125,50,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6}
+  header{background:linear-gradient(135deg,var(--green-dark),var(--green));
+    color:#fff;padding:48px 24px 40px;text-align:center}
+  header h1{font-size:2.2rem;font-weight:700;letter-spacing:2px}
+  header p{margin-top:10px;opacity:.92;font-size:1rem}
+  main{max-width:1280px;margin:0 auto;padding:32px 20px 60px}
+  /* controls */
+  #controls{display:flex;flex-wrap:wrap;align-items:center;gap:20px;margin-bottom:32px;background:#fff;padding:16px 20px;border-radius:12px;box-shadow:var(--shadow)}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .tab{padding:8px 20px;border:none;border-radius:30px;background:#f0f2f0;color:var(--muted);font-size:.95rem;cursor:pointer;transition:all .2s;font-weight:500}
+  .tab:hover{background:var(--green-light);color:var(--green-dark)}
+  .tab.active{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(46,125,50,.3)}
+  .search{margin-left:auto;flex:1 1 200px;max-width:300px}
+  .search input{width:100%;padding:8px 14px;border:1px solid var(--border);border-radius:30px;font-size:.9rem;outline:none;transition:border .2s}
+  .search input:focus{border-color:var(--green)}
+  .season{margin-bottom:48px}
+  .season-head{display:flex;align-items:center;gap:16px;margin-bottom:24px;
+    padding-bottom:14px;border-bottom:3px solid var(--green)}
+  .season-badge{background:var(--green);color:#fff;width:56px;height:56px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;flex-shrink:0}
+  .season-head h2{font-size:1.5rem;color:var(--green-dark)}
+  .season-head .meta{color:var(--muted);font-size:.9rem;margin-top:2px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}
+  .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);
+    transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-5px);box-shadow:0 10px 28px rgba(46,125,50,.20)}
+  .thumb{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#f5e6b8,#e8c97a);overflow:hidden;cursor:pointer}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb-fallback{width:100%;height:100%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;color:var(--green-dark);font-weight:600}
+  .thumb-fallback .ep{font-size:2rem;font-weight:800}
+  .thumb-fallback .label{font-size:.75rem;margin-top:4px;opacity:.7}
+  .ep-tag{position:absolute;top:10px;left:10px;background:rgba(27,94,32,.88);
+    color:#fff;padding:3px 10px;border-radius:4px;font-size:.78rem;font-weight:600}
+  .date-tag{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);
+    color:#fff;padding:3px 9px;border-radius:4px;font-size:.72rem}
+  .body{padding:14px 16px 18px;flex:1;display:flex;flex-direction:column}
+  .body h3{font-size:1rem;line-height:1.45;color:var(--text);margin-bottom:10px;flex:1}
+  .body h3 .loc{color:var(--green-dark);font-weight:600}
+  .open-btn{display:inline-block;background:var(--green);color:#fff;text-decoration:none;
+    padding:8px 14px;border-radius:6px;font-size:.88rem;text-align:center;transition:background .2s}
+  .open-btn:hover{background:var(--green-dark)}
+  .copy-btn{background:transparent;border:1px solid var(--border);color:var(--muted);
+    cursor:pointer;padding:8px 12px;border-radius:6px;font-size:.82rem;margin-top:8px;width:100%}
+  .copy-btn:hover{background:var(--green-light);color:var(--green-dark);border-color:var(--green)}
+  footer{text-align:center;padding:30px 20px;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border)}
+  footer a{color:var(--green-dark);text-decoration:none}
+  .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);
+    background:rgba(27,94,32,.95);color:#fff;padding:12px 24px;border-radius:8px;
+    font-size:.9rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999}
+  .toast.show{opacity:1}
+  @media(max-width:600px){header h1{font-size:1.6rem}#controls{flex-direction:column;align-items:stretch}.search{margin-left:0;max-width:none}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌾 农耕探文明 · 全剧集列表</h1>
+  <p>央视大型系列纪录片 · 中国重要农业文化遗产系统展现</p>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  数据来源：央视网 CCTV 节目官网（tv.cctv.com）<br>
+  采集日期：2026-08-08 · 本页面为离线静态 HTML，双击即可打开
+</footer>
+
+<div class="toast" id="toast">已复制播放地址到剪贴板</div>
+
+<script>
+/* =================== 爬取数据 =================== */
+const DATA = [
+  { season:1, title:"《农耕探文明》第一季", total:22,
+    url:"https://tv.cctv.com/2023/12/25/VIDAB0z6fWlVKhH98V69LYPo231225.shtml",
+    range:"2023-12-25 ~ 2024-05-24",
+    eps:[
+      ["第1集","浙江庆元 林-菇共育系统","2023-12-25","https://tv.cctv.com/2023/12/25/VIDEhwcwhUNVYRnIJlWSc88Z231225.shtml","VIDEhwcwhUNVYRnIJlWSc88Z231225"],
+      ["第2集","安徽铜陵 白姜种植系统","2023-12-26","https://tv.cctv.com/2023/12/26/VIDE6EFFzVYbfGUVjDt2xClt231226.shtml","VIDE6EFFzVYbfGUVjDt2xClt231226"],
+      ["第3集","福建福州 茉莉花与茶文化系统","2023-12-27","https://tv.cctv.com/2023/12/27/VIDEuhj1zIa1a5NmBIbVeFPw231227.shtml","VIDEuhj1zIa1a5NmBIbVeFPw231227"],
+      ["第4集","河北涉县 旱作石堰梯田系统","2023-12-28","https://tv.cctv.com/2023/12/28/VIDE6bnEDvV67GtkSliOobkK231228.shtml","VIDE6bnEDvV67GtkSliOobkK231228"],
+      ["第5集","云南普洱 古茶园与茶文化系统","2023-12-29","https://tv.cctv.com/2023/12/29/VIDE70cDFzdzmgCfDPorStqj231229.shtml","VIDE70cDFzdzmgCfDPorStqj231229"],
+      ["第6集","浙江青田 稻鱼共生系统","2024-03-07","https://tv.cctv.com/2024/03/07/VIDEXXev6mJwR0SkQTOMPHV0240307.shtml","VIDEXXev6mJwR0SkQTOMPHV0240307"],
+      ["第7集","甘肃皋兰 什川古梨园","2024-03-08","https://tv.cctv.com/2024/03/08/VIDEl1iRd8P4ZyI2TN7aSWmA240308.shtml","VIDEl1iRd8P4ZyI2TN7aSWmA240308"],
+      ["第8集","陕西佳县 古枣园","2024-03-11","https://tv.cctv.com/2024/03/11/VIDEKg8oqyOANSDkPxGXRA6k240311.shtml","VIDEKg8oqyOANSDkPxGXRA6k240311"],
+      ["第9集","内蒙古阿鲁科尔沁 草原游牧系统","2024-03-12","https://tv.cctv.com/2024/03/12/VIDEuUmr7AMJtK3gaCTrSC6o240312.shtml","VIDEuUmr7AMJtK3gaCTrSC6o240312"],
+      ["第10集","甘肃迭部扎尕那 农林牧复合系统","2024-03-13","https://tv.cctv.com/2024/03/13/VIDE0BFB1Me0MCmSWo3Qka71240313.shtml","VIDE0BFB1Me0MCmSWo3Qka71240313"],
+      ["第11集","江西万年 稻作文化系统","2024-03-14","https://tv.cctv.com/2024/03/14/VIDEQPQ5veRFcvCOREPA8P5t240314.shtml","VIDEQPQ5veRFcvCOREPA8P5t240314"],
+      ["第12集","浙江湖州 桑基鱼塘系统","2024-03-15","https://tv.cctv.com/2024/03/15/VIDEbNWddJVR7xGGRfdjP6gX240315.shtml","VIDEbNWddJVR7xGGRfdjP6gX240315"],
+      ["第13集","云南红河哈尼 稻作梯田系统","2024-05-13","https://tv.cctv.com/2024/05/13/VIDE5JuuMmczFLnPq9nSOUzj240513.shtml","VIDE5JuuMmczFLnPq9nSOUzj240513"],
+      ["第14集","河北宽城 传统板栗栽培系统","2024-05-14","https://tv.cctv.com/2024/05/14/VIDETtzWoyeHS0auXKoAg5Ju240514.shtml","VIDETtzWoyeHS0auXKoAg5Ju240514"],
+      ["第15集","浙江绍兴 会稽山古香榧群","2024-05-15","https://tv.cctv.com/2024/05/15/VIDEouBAsO3v6ZpTkAp0mMyv240515.shtml","VIDEouBAsO3v6ZpTkAp0mMyv240515"],
+      ["第16集","福建安溪 铁观音茶文化系统","2024-05-16","https://tv.cctv.com/2024/05/16/VIDEykZS2XcUCt2oszBSNQIX240516.shtml","VIDEykZS2XcUCt2oszBSNQIX240516"],
+      ["第17集","中国南方 山地稻作梯田系统","2024-05-17","https://tv.cctv.com/2024/05/17/VIDESq8MRSn6PQhKOItBiqyt240517.shtml","VIDESq8MRSn6PQhKOItBiqyt240517"],
+      ["第18集","江苏兴化 垛田传统农业系统","2024-05-20","https://tv.cctv.com/2024/05/20/VIDEmLQ9IndCkIGhii4OYUm2240520.shtml","VIDEmLQ9IndCkIGhii4OYUm2240520"],
+      ["第19集","山东夏津 黄河故道古桑树群","2024-05-21","https://tv.cctv.com/2024/05/21/VIDElPaH8oSLk3aK0f3ok0fH240521.shtml","VIDElPaH8oSLk3aK0f3ok0fH240521"],
+      ["第20集","内蒙古敖汉 旱作农业系统","2024-05-22","https://tv.cctv.com/2024/05/22/VIDEFTdODoZYEpB8vay9it5r240522.shtml","VIDEFTdODoZYEpB8vay9it5r240522"],
+      ["第21集","河北宣化 城市传统葡萄园","2024-05-23","https://tv.cctv.com/2024/05/23/VIDEZtivLUrAMCHjeSKdQJrU240523.shtml","VIDEZtivLUrAMCHjeSKdQJrU240523"],
+      ["第22集","贵州从江 侗乡稻鱼鸭系统","2024-05-24","https://tv.cctv.com/2024/05/24/VIDEU1hV5pwenmDlt34sxlFO240524.shtml","VIDEU1hV5pwenmDlt34sxlFO240524"]
+    ]},
+  { season:2, title:"《2024农耕探文明》第二季", total:20,
+    url:"https://tv.cctv.com/2024/10/14/VIDAJSD5yQZc7Knhm6D0iRLp241014.shtml",
+    range:"2024-10-14 ~ 2024-12-17",
+    eps:[
+      ["第1集","广东岭南 荔枝种植系统","2024-10-14","https://tv.cctv.com/2024/10/14/VIDEtFg0ZlDqNSe2dPQzgBQB241014.shtml","VIDEtFg0ZlDqNSe2dPQzgBQB241014"],
+      ["第2集","江西广昌 传统莲作文化系统","2024-10-15","https://tv.cctv.com/2024/10/15/VIDEs9r6Jk7GdrhVUyZk2fGg241015.shtml","VIDEs9r6Jk7GdrhVUyZk2fGg241015"],
+      ["第3集","浙江仙居 古杨梅群复合种养系统","2024-10-16","https://tv.cctv.com/2024/10/16/VIDElVeMVWJ7QmUuDQHFqph8241016.shtml","VIDElVeMVWJ7QmUuDQHFqph8241016"],
+      ["第4集","北京京西 稻作文化系统","2024-10-17","https://tv.cctv.com/2024/10/17/VIDEGMhYaXUGgd2UD2THyPTP241017.shtml","VIDEGMhYaXUGgd2UD2THyPTP241017"],
+      ["第5集","云南腾冲 槟榔江水牛养殖系统","2024-10-23","https://tv.cctv.com/2024/10/23/VIDEk4lwZBjgxKxHcEAWkiFf241023.shtml","VIDEk4lwZBjgxKxHcEAWkiFf241023"],
+      ["第6集","新疆奇台 旱作农业系统","2024-11-14","https://tv.cctv.com/2024/11/14/VIDEsPrkHhDiTbacin9PyFgr241114.shtml","VIDEsPrkHhDiTbacin9PyFgr241114"],
+      ["第7集","浙江德清 淡水珍珠传统养殖与利用系统","2024-11-15","https://tv.cctv.com/2024/11/15/VIDEV34oieDunwArKbaNPoME241115.shtml","VIDEV34oieDunwArKbaNPoME241115"],
+      ["第8集","宁夏平原 引黄灌溉农业系统","2024-11-18","https://tv.cctv.com/2024/11/18/VIDEbctPueq6ExFE0jDuCVKh241118.shtml","VIDEbctPueq6ExFE0jDuCVKh241118"],
+      ["第9集","四川宜宾 竹文化系统","2024-11-19","https://tv.cctv.com/2024/11/19/VIDEEtyuJ0hCtHqw8sCtfQug241119.shtml","VIDEEtyuJ0hCtHqw8sCtfQug241119"],
+      ["第10集","江苏高邮 湖泊湿地农业系统","2024-11-20","https://tv.cctv.com/2024/11/20/VIDEqQE0me7OLuhs4EuwhXjV241120.shtml","VIDEqQE0me7OLuhs4EuwhXjV241120"],
+      ["第11集","四川北川 苔子茶复合栽培系统","2024-11-21","https://tv.cctv.com/2024/11/21/VIDEFzyUPZLCEwYcLqTcC6G6241121.shtml","VIDEFzyUPZLCEwYcLqTcC6G6241121"],
+      ["第12集","黑龙江抚远 赫哲族鱼文化系统","2024-11-22","https://tv.cctv.com/2024/11/22/VIDEMKkGPV2xJDhCQsYPXWdv241122.shtml","VIDEMKkGPV2xJDhCQsYPXWdv241122"],
+      ["第13集","安徽寿县 芍陂（安丰塘）及灌区农业系统","2024-12-02","https://tv.cctv.com/2024/12/02/VIDEI0qMVI8znoV6wmKnkyxc241202.shtml","VIDEI0qMVI8znoV6wmKnkyxc241202"],
+      ["第14集","重庆石柱 黄连生产系统","2024-12-09","https://tv.cctv.com/2024/12/09/VIDEGVFzBunTRqGN9maKc3JS241209.shtml","VIDEGVFzBunTRqGN9maKc3JS241209"],
+      ["第15集","辽宁宽甸 柱参传统栽培体系","2024-12-10","https://tv.cctv.com/2024/12/10/VIDERL54JvJGXo4PJg9dlVEl241210.shtml","VIDERL54JvJGXo4PJg9dlVEl241210"],
+      ["第16集","广东潮州 单丛茶文化系统","2024-12-11","https://tv.cctv.com/2024/12/11/VIDEFIOxtBfkMDwQGRMhbxdN241211.shtml","VIDEFIOxtBfkMDwQGRMhbxdN241211"],
+      ["第17集","甘肃永登 苦水玫瑰农作系统","2024-12-12","https://tv.cctv.com/2024/12/12/VIDEhLhIbBQ7BC616ta0UJnk241212.shtml","VIDEhLhIbBQ7BC616ta0UJnk241212"],
+      ["第18集","新疆伊犁 察布查尔布哈农业系统","2024-12-13","https://tv.cctv.com/2024/12/13/VIDEBZZmqXpvMMGerAIWefLP241213.shtml","VIDEBZZmqXpvMMGerAIWefLP241213"],
+      ["第19集","广西恭城 月柿栽培系统","2024-12-16","https://tv.cctv.com/2024/12/16/VIDEhMY5SoN960zo4EmQE6EQ241216.shtml","VIDEhMY5SoN960zo4EmQE6EQ241216"],
+      ["第20集","海南琼中 山兰稻作文化系统","2024-12-17","https://tv.cctv.com/2024/12/17/VIDEbxAiet1sWbOvc9Se60Wu241217.shtml","VIDEbxAiet1sWbOvc9Se60Wu241217"]
+    ]},
+  { season:3, title:"《2025农耕探文明》第三季", total:20,
+    url:"https://tv.cctv.com/2025/10/12/VIDAOKFy6Ag5hPKYCwc1KjFD251012.shtml",
+    range:"2025-10-13 ~ 2026-01-09",
+    eps:[
+      ["第1集","浙江宁波 黄古林蔺草-水稻轮作系统","2025-10-13","https://tv.cctv.com/2025/10/13/VIDEQuF9joHTX59lvoqWeCkk251013.shtml","VIDEQuF9joHTX59lvoqWeCkk251013"],
+      ["第2集","江苏吴江 蚕桑文化系统","2025-10-14","https://tv.cctv.com/2025/10/14/VIDERsh127fh9cXWqbN2Mh41251014.shtml","VIDERsh127fh9cXWqbN2Mh41251014"],
+      ["第3集","湖北恩施 玉露茶文化系统","2025-10-15","https://tv.cctv.com/2025/10/15/VIDEqsfrl2UAWCt7GL2fY7LD251015.shtml","VIDEqsfrl2UAWCt7GL2fY7LD251015"],
+      ["第4集","广东海珠 高畦深沟传统农业系统","2025-10-20","https://tv.cctv.com/2025/10/20/VIDEKGnnAhVhOHGjzdeqgTey251020.shtml","VIDEKGnnAhVhOHGjzdeqgTey251020"],
+      ["第5集","江西湖口 大豆栽培系统","2025-10-21","https://tv.cctv.com/2025/10/21/VIDEerqtPU3k02WHYXDZFoQc251021.shtml","VIDEerqtPU3k02WHYXDZFoQc251021"],
+      ["第6集","安徽休宁 山泉流水养鱼系统","2025-10-22","https://tv.cctv.com/2025/10/22/VIDEaTjGAfBdRl2cuyRXTkpv251022.shtml","VIDEaTjGAfBdRl2cuyRXTkpv251022"],
+      ["第7集","湖南新田 三味辣椒种植系统","2025-11-17","https://tv.cctv.com/2025/11/17/VIDEcmUJdoS0GYlwOKHekUXh251117.shtml","VIDEcmUJdoS0GYlwOKHekUXh251117"],
+      ["第8集","新疆昭苏 草原马牧养系统","2025-11-18","https://tv.cctv.com/2025/11/18/VIDEoNs6yBHBfpEs3N0mc70E251118.shtml","VIDEoNs6yBHBfpEs3N0mc70E251118"],
+      ["第9集","云南漾濞 核桃——作物复合系统","2025-11-19","https://tv.cctv.com/2025/11/19/VIDE9XOd2kiX0ureJ9MZ7oBd251119.shtml","VIDE9XOd2kiX0ureJ9MZ7oBd251119"],
+      ["第10集","陕西凤县 大红袍花椒栽培系统","2025-11-20","https://tv.cctv.com/2025/11/20/VIDE2jKbsoU0xel52XWCLAKu251120.shtml","VIDE2jKbsoU0xel52XWCLAKu251120"],
+      ["第11集","新疆哈密市 哈密瓜栽培与贡瓜文化系统","2025-11-21","https://tv.cctv.com/2025/11/21/VIDEgTHllCIMflQAsq9mOhJQ251121.shtml","VIDEgTHllCIMflQAsq9mOhJQ251121"],
+      ["第12集","福建松溪 竹蔗栽培系统","2025-12-17","https://tv.cctv.com/2025/12/17/VIDEwNBiOiK6kGd8EB2OJ9kL251217.shtml","VIDEwNBiOiK6kGd8EB2OJ9kL251217"],
+      ["第13集","江苏启东 沙地圩田农业系统","2025-12-18","https://tv.cctv.com/2025/12/18/VIDEyOoE4O6r3Yd09EviqGhu251218.shtml","VIDEyOoE4O6r3Yd09EviqGhu251218"],
+      ["第14集","河北兴隆 传统山楂栽培系统","2025-12-19","https://tv.cctv.com/2025/12/19/VIDEU0HCBhPsOHOk6Yozf9R2251219.shtml","VIDEU0HCBhPsOHOk6Yozf9R2251219"],
+      ["第15集","江苏泰兴 银杏栽培系统","2025-12-22","https://tv.cctv.com/2025/12/22/VIDEsdH0iSoQqWTSK0A25dla251222.shtml","VIDEsdH0iSoQqWTSK0A25dla251222"],
+      ["第16集","湖南永顺 油茶林农复合系统","2025-12-23","https://tv.cctv.com/2025/12/23/VIDE7tXcsK1wXuga0qtj3M0f251223.shtml","VIDE7tXcsK1wXuga0qtj3M0f251223"],
+      ["第17集","湖北咸宁 古桂花树群","2025-12-24","https://tv.cctv.com/2025/12/24/VIDETsbOBz0Fr26vteILHIuD251224.shtml","VIDETsbOBz0Fr26vteILHIuD251224"],
+      ["第18集","湖南龙山 油桐种植系统","2025-12-25","https://tv.cctv.com/2025/12/25/VIDEikVBNQHLfEQhGNks5VRt251225.shtml","VIDEikVBNQHLfEQhGNks5VRt251225"],
+      ["第19集","辽宁西丰 梅花鹿养殖系统","2025-12-26","https://tv.cctv.com/2025/12/26/VIDEsSlYCTiXb0kfd75c38aK251226.shtml","VIDEsSlYCTiXb0kfd75c38aK251226"],
+      ["第20集","重庆万州 红桔栽培系统","2026-01-09","https://tv.cctv.com/2026/01/09/VIDExJAidRKxhqAsTeBJjtYz260109.shtml","VIDExJAidRKxhqAsTeBJjtYz260109"]
+    ]}
+];
+
+/* =================== 渲染引擎 =================== */
+const app = document.getElementById('app');
+const toast = document.getElementById('toast');
+
+function showToast(msg){
+  toast.textContent = msg; toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),1800);
+}
+
+function copyUrl(url){
+  navigator.clipboard?.writeText(url).then(()=>showToast('已复制播放地址到剪贴板'))
+    .catch(()=>{
+      const ta=document.createElement('textarea');ta.value=url;document.body.appendChild(ta);
+      ta.select();document.execCommand('copy');document.body.removeChild(ta);
+      showToast('已复制播放地址到剪贴板');
+    });
+}
+
+// 封面图候选
+function thumbCandidates(guid){
+  return [
+    `https://h5.cntv.com.cn/podcast/image/${guid}.jpg`,
+    `https://pqiowcfwn0.smartapps.cn/${guid}.jpg`
+  ];
+}
+
+function buildCard(ep, seasonNo){
+  const [epNo, title, date, url, guid] = ep;
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="thumb" onclick="window.open('${url}','_blank')">
+      <span class="ep-tag">S${seasonNo} ${epNo}</span>
+      <span class="date-tag">${date}</span>
+      <div class="thumb-fallback"><div class="ep">${epNo.replace('第','').replace('集','')}</div><div class="label">农耕探文明</div></div>
+    </div>
+    <div class="body">
+      <h3>${title.replace(/^(.+?)(\s+)(.+)$/,'$1 <span class="loc">$3</span>')}</h3>
+      <a class="open-btn" href="${url}" target="_blank">▶ 立即观看</a>
+      <button class="copy-btn" data-url="${url}">复制播放地址</button>
+    </div>`;
+  // 异步加载封面图
+  const thumb = card.querySelector('.thumb');
+  const candidates = thumbCandidates(guid);
+  let idx = 0;
+  const tryLoad = ()=>{
+    if(idx >= candidates.length) return;
+    const img = new Image();
+    img.onload = ()=>{
+      img.style.width='100%';img.style.height='100%';img.style.objectFit='cover';
+      thumb.innerHTML = `<span class="ep-tag">S${seasonNo} ${epNo}</span><span class="date-tag">${date}</span>`;
+      thumb.appendChild(img);
+    };
+    img.onerror = ()=>{ idx++; tryLoad(); };
+    img.src = candidates[idx];
+  };
+  tryLoad();
+  card.querySelector('.copy-btn').addEventListener('click', e=>{
+    e.stopPropagation(); copyUrl(e.currentTarget.dataset.url);
+  });
+  return card;
+}
+
+// ----- 控制栏 -----
+const controls = document.createElement('div');
+controls.id = 'controls';
+controls.innerHTML = `
+  <div class="tabs">
+    <button class="tab active" data-season="all">全部</button>
+    <button class="tab" data-season="1">第一季</button>
+    <button class="tab" data-season="2">第二季</button>
+    <button class="tab" data-season="3">第三季</button>
+  </div>
+  <div class="search">
+    <input type="text" id="searchInput" placeholder="搜索视频名称…" autofocus>
+  </div>
+`;
+app.appendChild(controls);
+
+const content = document.createElement('div');
+content.id = 'content';
+app.appendChild(content);
+
+let currentTab = 'all';
+let keyword = '';
+
+function render() {
+  let filteredSeasons = DATA.filter(s => {
+    if (currentTab === 'all') return true;
+    return s.season === parseInt(currentTab);
+  });
+
+  content.innerHTML = '';
+  filteredSeasons.forEach(s => {
+    let eps = s.eps;
+    if (keyword.trim() !== '') {
+      const kw = keyword.trim().toLowerCase();
+      eps = eps.filter(ep => ep[1].toLowerCase().includes(kw));
+    }
+    if (eps.length === 0) return;
+
+    const wrap = document.createElement('section');
+    wrap.className = 'season';
+    const head = document.createElement('div');
+    head.className = 'season-head';
+    head.innerHTML = `
+      <div class="season-badge">S${s.season}</div>
+      <div>
+        <h2>${s.title}</h2>
+        <div class="meta">共 ${s.total} 集 · 播出时间 ${s.range}</div>
+      </div>
+    `;
+    wrap.appendChild(head);
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    eps.forEach(ep => {
+      grid.appendChild(buildCard(ep, s.season));
+    });
+    wrap.appendChild(grid);
+    content.appendChild(wrap);
+  });
+
+  // 若没有匹配结果，显示提示
+  if (content.children.length === 0) {
+    const empty = document.createElement('p');
+    empty.style.cssText = 'text-align:center;color:var(--muted);padding:60px 0;font-size:1.1rem';
+    empty.textContent = '😕 未找到匹配的剧集，请尝试其他关键词';
+    content.appendChild(empty);
+  }
+}
+
+// 绑定事件
+document.querySelectorAll('.tab').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentTab = this.dataset.season;
+    render();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  keyword = this.value;
+  render();
+});
+
+// 初始渲染
+render();
+</script>
+</body>
+</html>
